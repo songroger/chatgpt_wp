@@ -1,0 +1,45 @@
+:root {
+    font-size: 16px;
+    line-height: 14px;
+    --brand-1: #30b30c;
+    --brand-2: #59c23c;
+    --brand-3: #c1e8b6;
+}
+
+.ChatApp,
+.Bubble {
+    max-width: 100vw;
+}
+
+.MessageContainer,
+.Navbar,
+.Message .Bubble,
+.QuickReplies,
+.ChatFooter {
+    background-repeat: no-repeat;
+    background-size: cover;
+    background: #fbf9f9;
+}
+
+.ScrollView,
+.ChatFooter {
+    background: black;
+}
+.ChatApp {
+  background-color: #eeeeee;
+}
+.Navbar {
+  background-color: #060606;
+}
+.Navbar-title {
+  color: #ede4e4;
+}
+.QuickReply.highlight {
+    background-color: #28292a;
+    border-color: #10100f;
+    color: #ebe6e6;
+}
+.Message.left .Bubble {
+  background-color: #c1e8b6;
+  color: #111;
+}
