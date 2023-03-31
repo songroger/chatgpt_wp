@@ -176,6 +176,8 @@ function App() {
       .catch((err) => {
         // 错误处理
         toast.fail('请求出错，' + err.response.data.errorMsg)
+        setPercentage(0)
+        setTyping(false)
       })
   }
 
