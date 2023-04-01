@@ -6,6 +6,7 @@ import Chat, {
   Progress,
   toast,
   useMessages,
+  Popup,
 } from '@chatui/core'
 import '@chatui/core/dist/index.css'
 import '@chatui/core/es/styles/index.less'
@@ -21,16 +22,19 @@ import sanitizeHtml from 'sanitize-html';
 
 const defaultQuickReplies = [
   {
+    icon: 'refresh',
     name: '清空',
-    isNew: true,
+    isNew: false,
     isHighlight: true,
   },
   {
+    icon: 'copy',
     name: '复制',
     isNew: false,
     isHighlight: true,
   },
   {
+    icon: 'cancel',
     name: '取消',
     isNew: false,
     isHighlight: true,
@@ -57,6 +61,7 @@ let chatContext: any[] = []
 function App() {
   const { messages, appendMsg, setTyping, prependMsgs } = useMessages(initialMessages)
   const [percentage, setPercentage] = useState(0)
+  const [open, setOpen] = useState(false);
   const source = axios.CancelToken.source()
 
   const handleFocus = () => {
@@ -83,6 +88,16 @@ function App() {
   function clearReply(reply: string) {
     // TODO 清洗回复特殊字符
     return reply
+  }
+
+  // openMenu
+  function handleOpen() {
+    setOpen(true);
+    console.log("open menu")
+  }
+
+  function handleClose() {
+    setOpen(false);
   }
 
   function handleSend(type: string, val: string) {
@@ -206,16 +221,21 @@ function App() {
           //   icon: 'chevron-left',
           //   title: 'Back',
           // },
+          leftContent: {
+              icon: 'ellipsis-h',
+              title: '',
+              onClick: handleOpen
+          },
           // rightContent: [
-          //   {
-          //     icon: 'apps',
-          //     title: 'Applications',
-          //   },
-          //   {
-          //     icon: 'ellipsis-h',
-          //     title: 'More',
-          //   },
-          // ],
+          //     // {
+          //     //   icon: 'apps',
+          //     //   title: 'Applications',
+          //     // },
+          //     {
+          //       icon: 'ellipsis-h',
+          //       title: '',
+          //     },
+          //   ],
           title: 'ChatGPT',
         }}
         messages={messages}
@@ -227,6 +247,16 @@ function App() {
         placeholder="Ask anything you like..."
       />
       <Progress value={percentage} />
+      <Popup
+        active={open}
+        title="标题"
+        onClose={handleClose}
+      >
+        <div style={{padding:'0px 15px'}}>
+          <p style={{padding:'10px'}}>内容详情内容详情内容详情内容详情内容详情内容详情</p>
+          <p style={{padding:'10px'}}>内容详情内容详情内容详情内容详情内容详情</p>
+        </div>
+      </Popup>
     </div>
   )
 }

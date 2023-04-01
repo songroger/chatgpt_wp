@@ -31,6 +31,7 @@
 .Navbar {
   background-color: #060606;
 }
+.Navbar .IconBtn,
 .Navbar-title {
   color: #ede4e4;
 }
