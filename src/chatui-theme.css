@@ -40,6 +40,10 @@
     color: #ebe6e6;
 }
 .Message.left .Bubble {
+  background-color: #e6f1e3;
+  color: #111;
+}
+.Message.right .Bubble {
   background-color: #c1e8b6;
   color: #111;
 }

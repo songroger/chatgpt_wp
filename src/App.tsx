@@ -87,14 +87,14 @@ function App() {
 
   function handleSend(type: string, val: string) {
     if (percentage > 0) {
-      toast.show('正在等待上一次回复，请稍后', "loading", 3_000)
+      toast.show('等待回复,请稍后', "loading", 3_000)
       return
     }
     if (type === 'text' && val.trim()) {
       appendMsg({
         type: 'text',
         content: { text: val },
-        position: 'left',
+        position: 'right',
         user: { avatar: '/user.png' },
       })
 
