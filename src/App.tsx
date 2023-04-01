@@ -21,18 +21,18 @@ import sanitizeHtml from 'sanitize-html';
 
 
 const defaultQuickReplies = [
-  {
-    icon: 'refresh',
-    name: '清空',
-    isNew: false,
-    isHighlight: true,
-  },
-  {
-    icon: 'copy',
-    name: '复制',
-    isNew: false,
-    isHighlight: true,
-  },
+  // {
+  //   icon: 'refresh',
+  //   name: '清空',
+  //   isNew: false,
+  //   isHighlight: true,
+  // },
+  // {
+  //   icon: 'copy',
+  //   name: '复制',
+  //   isNew: false,
+  //   isHighlight: true,
+  // },
   {
     icon: 'cancel',
     name: '取消',
@@ -43,6 +43,24 @@ const defaultQuickReplies = [
     name: 'Ai会替代人类工作吗',
     isNew: false,
     isHighlight: true,
+  }
+]
+
+const toolbar = [
+  {
+    type: 'refresh',
+    icon: 'refresh',
+    title: '清空',
+  },
+  {
+    type: 'copy',
+    icon: 'copy',
+    title: '复制',
+  },
+  {
+    // type: 'orderSelector',
+    icon: 'cancel',
+    title: '取消',
   }
 ]
 
@@ -238,6 +256,7 @@ function App() {
           //   ],
           title: 'ChatGPT',
         }}
+        toolbar={toolbar}
         messages={messages}
         renderMessageContent={renderMessageContent}
         quickReplies={defaultQuickReplies}
