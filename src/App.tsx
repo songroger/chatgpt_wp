@@ -31,6 +31,11 @@ const defaultQuickReplies = [
     isHighlight: true,
   },
   {
+    name: '取消',
+    isNew: false,
+    isHighlight: true,
+  },
+  {
     name: 'Ai会替代人类工作吗',
     isNew: false,
     isHighlight: true,
@@ -52,6 +57,7 @@ let chatContext: any[] = []
 function App() {
   const { messages, appendMsg, setTyping, prependMsgs } = useMessages(initialMessages)
   const [percentage, setPercentage] = useState(0)
+  const source = axios.CancelToken.source()
 
   const handleFocus = () => {
     setTimeout(() => {
@@ -147,6 +153,11 @@ function App() {
     if (item.name === 'Ai会替代人类工作吗') {
       handleSend('text', item.name);
     }
+    if (item.name === '取消') {
+        setPercentage(0)
+        setTyping(false)
+        source.cancel('你已取消')
+    }
   }
 
   function onGenCode(question: string) {
@@ -161,6 +172,7 @@ function App() {
     axios
       .post(url, {
         messages: chatContext,
+        cancelToken: source.token
       })
       .then((response) => {
         let reply = clearReply(response.data.data.reply)
@@ -175,9 +187,14 @@ function App() {
       })
       .catch((err) => {
         // 错误处理
-        toast.fail('请求出错，' + err.response.data.errorMsg)
-        setPercentage(0)
-        setTyping(false)
+        if (axios.isCancel(err)) {
+          // 请求被取消时的处理
+          console.log('请求被取消：', err.message);
+        } else {
+          toast.fail('请求出错，' + err.response.data.errorMsg)
+          setPercentage(0)
+          setTyping(false)
+        }
       })
   }
 
