@@ -13,6 +13,7 @@ import Chat, {
   Image,
   Input,
   Search,
+  ToolbarItemProps,
 } from '@chatui/core'
 import '@chatui/core/dist/index.css'
 import '@chatui/core/es/styles/index.less'
@@ -42,14 +43,12 @@ const defaultQuickReplies = [
   //   isHighlight: true,
   // },
   {
-    type: 'cancel',
     icon: 'cancel',
     name: '取消',
     isNew: false,
     isHighlight: true,
   },
   {
-    type: 'ask',
     name: 'Ai会替代人类工作吗',
     isNew: false,
     isHighlight: true,
@@ -94,7 +93,7 @@ function App() {
   const [percentage, setPercentage] = useState(0)
   const [open, setOpen] = useState(false)
   const source = axios.CancelToken.source()
-  const inputRef = useRef(null)
+  // const inputRef = useRef(null)
 
   const handleFocus = () => {
     setTimeout(() => {
@@ -104,12 +103,12 @@ function App() {
   }
  
   const handleOrderChange = () => {
-      console.log(inputRef.current.value)
+      // console.log(inputRef.current.value)
   }
 
   const handleOrderSend = () => {
       // console.log(inputRef.current.value)
-      queryMyKey(inputRef.current.value)
+      // queryMyKey(inputRef.current.value)
   }
 
   async function handleToolbarClick(item: ToolbarItemProps) {
@@ -216,13 +215,13 @@ function App() {
   }
 
   async function handleQuickReplyClick(item: { name: string }) {
-    if (item.type === 'refresh') {
+    if (item.name === '清空') {
 
       chatContext.splice(0)
       messages.splice(0)
       prependMsgs(messages)
     }
-    if (item.type === 'copy') {
+    if (item.name === '复制') {
       if (messages.length <= 1) {
         return
       }
@@ -235,10 +234,10 @@ function App() {
       await clipboardy.write(r)
       toast.show('复制成功', "loading", 3_000)
     }
-    if (item.type === 'ask') {
+    if (item.name === 'Ai会替代人类工作吗') {
       handleSend('text', item.name);
     }
-    if (item.type === 'cancel') {
+    if (item.name === '取消') {
         setPercentage(0)
         setTyping(false)
         source.cancel('你已取消')
@@ -292,7 +291,7 @@ function App() {
         orderId: orderId,
       })
       .then((response) => {
-        res = response.data.data.key
+        let res = response.data.data.key
         console.log(res)
       })
       .catch((err) => {
