@@ -7,6 +7,9 @@ import Chat, {
   toast,
   useMessages,
   Popup,
+  Card,
+  CardTitle,
+  CardText,
 } from '@chatui/core'
 import '@chatui/core/dist/index.css'
 import '@chatui/core/es/styles/index.less'
@@ -22,24 +25,28 @@ import sanitizeHtml from 'sanitize-html';
 
 const defaultQuickReplies = [
   // {
+  //   type: 'refresh',
   //   icon: 'refresh',
   //   name: '清空',
-  //   isNew: false,
+  //   isNew: true,
   //   isHighlight: true,
   // },
   // {
+  //   type: 'copy',
   //   icon: 'copy',
   //   name: '复制',
   //   isNew: false,
   //   isHighlight: true,
   // },
   {
+    type: 'cancel',
     icon: 'cancel',
     name: '取消',
     isNew: false,
     isHighlight: true,
   },
   {
+    type: 'ask',
     name: 'Ai会替代人类工作吗',
     isNew: false,
     isHighlight: true,
@@ -57,11 +64,11 @@ const toolbar = [
     icon: 'copy',
     title: '复制',
   },
-  {
-    // type: 'orderSelector',
-    icon: 'cancel',
-    title: '取消',
-  }
+  // {
+  //   // type: 'orderSelector',
+  //   icon: 'cancel',
+  //   title: '取消',
+  // }
 ]
 
 const initialMessages = [
@@ -71,6 +78,11 @@ const initialMessages = [
       text: '您好，我是AI助理',
     },
     user: { avatar: '/gpt.png' },
+  },
+  {
+    type: 'card',
+    title: '',
+    text:  '', 
   },
 ]
 
@@ -89,6 +101,27 @@ function App() {
     }, 10)
   }
 
+  async function handleToolbarClick(item: ToolbarItemProps) {
+      if (item.type === 'refresh') {
+        chatContext.splice(0)
+        messages.splice(0)
+        prependMsgs(messages)
+      }
+      if (item.type === 'copy') {
+        if (messages.length <= 1) {
+            toast.show('无可用复制', "loading", 2_000)
+            return
+          }
+        const r = messages
+          .slice(1)
+          .filter((it) => it.type === 'text')
+          .map((it) => it.content.text)
+          .join('\n')
+        // console.log('messages', messages, r)
+        await clipboardy.write(r)
+        toast.show('复制成功', "loading", 3_000)
+      }
+    }
 
   // clearQuestion 清空文本特殊字符
   function clearQuestion(requestText: string) {
@@ -157,20 +190,28 @@ function App() {
               <Bubble>{text}</Bubble>
           )
         }
-
+      case 'card':
+        return (
+            <Card>
+              <CardTitle>Notes:</CardTitle>
+              <CardText>1.Remembers what user said earlier in the conversation;</CardText>
+              <CardText>2.Allows user to provide follow-up corrections. Trained to decline inappropriate requests;</CardText>
+              <CardText>3.May occasionally generate incorrect information, produce harmful instructions or biased content.</CardText>
+            </Card>
+            )
       default:
         return null
     }
   }
 
   async function handleQuickReplyClick(item: { name: string }) {
-    if (item.name === '清空') {
+    if (item.type === 'refresh') {
 
       chatContext.splice(0)
       messages.splice(0)
       prependMsgs(messages)
     }
-    if (item.name === '复制') {
+    if (item.type === 'copy') {
       if (messages.length <= 1) {
         return
       }
@@ -183,10 +224,10 @@ function App() {
       await clipboardy.write(r)
       toast.show('复制成功', "loading", 3_000)
     }
-    if (item.name === 'Ai会替代人类工作吗') {
+    if (item.type === 'ask') {
       handleSend('text', item.name);
     }
-    if (item.name === '取消') {
+    if (item.type === 'cancel') {
         setPercentage(0)
         setTyping(false)
         source.cancel('你已取消')
@@ -257,6 +298,7 @@ function App() {
           title: 'ChatGPT',
         }}
         toolbar={toolbar}
+        onToolbarClick={handleToolbarClick}
         messages={messages}
         renderMessageContent={renderMessageContent}
         quickReplies={defaultQuickReplies}
