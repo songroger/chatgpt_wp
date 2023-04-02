@@ -10,11 +10,13 @@ import Chat, {
   Card,
   CardTitle,
   CardText,
+  Image,
+  Input,
 } from '@chatui/core'
 import '@chatui/core/dist/index.css'
 import '@chatui/core/es/styles/index.less'
 
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import './chatui-theme.css'
 import axios from 'axios'
 import clipboardy from 'clipboardy'
@@ -81,8 +83,6 @@ const initialMessages = [
   },
   {
     type: 'card',
-    title: '',
-    text:  '', 
   },
 ]
 
@@ -91,14 +91,24 @@ let chatContext: any[] = []
 function App() {
   const { messages, appendMsg, setTyping, prependMsgs } = useMessages(initialMessages)
   const [percentage, setPercentage] = useState(0)
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false)
   const source = axios.CancelToken.source()
+  const inputRef = useRef(null)
 
   const handleFocus = () => {
     setTimeout(() => {
       window.scrollTo(0, document.body.scrollHeight)
 
     }, 10)
+  }
+ 
+  const handleOrderChange = () => {
+      console.log(inputRef.current.value)
+  }
+
+  const handleOrderSend = () => {
+      console.log(inputRef.current.value)
+      queryMyKey(inputRef.current.value)
   }
 
   async function handleToolbarClick(item: ToolbarItemProps) {
@@ -272,6 +282,29 @@ function App() {
       })
   }
 
+  function queryMyKey(orderId: string) {
+
+    let url = 'mykey'
+
+    axios
+      .post(url, {
+        orderId: orderId,
+      })
+      .then((response) => {
+        res = response.data.data.key
+        console.log(res)
+      })
+      .catch((err) => {
+        // 错误处理
+        if (axios.isCancel(err)) {
+          // 请求被取消时的处理
+          console.log('请求被取消：', err.message);
+        } else {
+          toast.fail('请求出错，' + err.response.data.errorMsg)
+        }
+      })
+  }
+
   return (
     <div className={css.app}>
       <Chat
@@ -310,12 +343,21 @@ function App() {
       <Progress value={percentage} />
       <Popup
         active={open}
-        title="标题"
+        title="使用说明"
         onClose={handleClose}
       >
         <div style={{padding:'0px 15px'}}>
-          <p style={{padding:'10px'}}>内容详情内容详情内容详情内容详情内容详情内容详情</p>
-          <p style={{padding:'10px'}}>内容详情内容详情内容详情内容详情内容详情</p>
+          <p style={{padding:'10px'}}>1.每天可免费使用10次,独立key按所有权限使用</p>
+          <p style={{padding:'10px'}}>2.如何获取独立key? 打赏作者：每1元获得100次</p>
+          <p style={{padding:'10px'}}>3.如何打赏? 按如下微信二维码支付, 根据支付单号查询你的专属key</p>
+          <p style={{padding:'10px'}}>4.打赏完之后, 获取key可能会有延迟, 如有紧急问题可直接微信联系.</p>
+
+          <Input type="text" id='orderId' name="orderId" ref={inputRef} onChange={handleOrderChange} placeholder="请输入你的支付单号..." />
+          <button style={{float: 'right'}} class="Btn Btn--primary" onClick={handleOrderSend}>查询key</button>
+          <h4>打赏码:</h4>
+          <Image src="//img.alicdn.com/tfs/TB1e9m8p5_1gK0jSZFqXXcpaXXa-1024-683.jpg" alt="Responsive image" fluid />
+          <h4>联系作者:</h4>
+          <Image src="//img.alicdn.com/tfs/TB1e9m8p5_1gK0jSZFqXXcpaXXa-1024-683.jpg" alt="Responsive image" fluid />
         </div>
       </Popup>
     </div>
