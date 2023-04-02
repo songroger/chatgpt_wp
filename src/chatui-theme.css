@@ -20,7 +20,9 @@
     background-size: cover;
     background: #fbf9f9;
 }
-
+.Input {
+  border: 1px solid #8ba587;
+}
 .ScrollView,
 .ChatFooter {
     background: black;
