@@ -12,6 +12,7 @@ import Chat, {
   CardText,
   Image,
   Input,
+  Search,
 } from '@chatui/core'
 import '@chatui/core/dist/index.css'
 import '@chatui/core/es/styles/index.less'
@@ -107,7 +108,7 @@ function App() {
   }
 
   const handleOrderSend = () => {
-      console.log(inputRef.current.value)
+      // console.log(inputRef.current.value)
       queryMyKey(inputRef.current.value)
   }
 
@@ -352,8 +353,15 @@ function App() {
           <p style={{padding:'10px'}}>3.如何打赏? 按如下微信二维码支付, 根据支付单号查询你的专属key</p>
           <p style={{padding:'10px'}}>4.打赏完之后, 获取key可能会有延迟, 如有紧急问题可直接微信联系.</p>
 
-          <Input type="text" id='orderId' name="orderId" ref={inputRef} onChange={handleOrderChange} placeholder="请输入你的支付单号..." />
-          <button style={{float: 'right'}} class="Btn Btn--primary" onClick={handleOrderSend}>查询key</button>
+          <Search
+            placeholder="请输入支付单号"
+            onSearch={(q) => {
+              queryMyKey(q);
+            }}
+            onClear={() => {
+              console.log('cancel');
+            }}
+          />
           <h4>打赏码:</h4>
           <Image src="//img.alicdn.com/tfs/TB1e9m8p5_1gK0jSZFqXXcpaXXa-1024-683.jpg" alt="Responsive image" fluid />
           <h4>联系作者:</h4>
