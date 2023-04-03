@@ -38,6 +38,9 @@
 .Navbar-title {
   color: #ede4e4;
 }
+.Popup {
+  font-size: 13px
+}
 .QuickReply.highlight {
     background-color: #28292a;
     border-color: #10100f;

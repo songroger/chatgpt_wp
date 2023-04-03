@@ -347,11 +347,13 @@ function App() {
         onClose={handleClose}
       >
         <div style={{padding:'0px 15px'}}>
-          <p style={{padding:'10px'}}>1.每天可免费使用10次,独立key按所有权限使用</p>
-          <p style={{padding:'10px'}}>2.如何获取独立key? 打赏作者：每1元获得100次</p>
-          <p style={{padding:'10px'}}>3.如何打赏? 按如下微信二维码支付, 根据支付单号查询你的专属key</p>
-          <p style={{padding:'10px'}}>4.打赏完之后, 获取key可能会有延迟, 如有紧急问题可直接微信联系.</p>
-
+          <Card>
+            <CardText children="1.每天可免费使用10次,独立key按所有权限使用;" />
+            <CardText children="2.如何获取独立key? 打赏作者：每1元获得100次;" />
+            <CardText children="3.如何打赏? 按如下微信二维码支付, 根据支付单号查询你的专属key;" />
+            <CardText children="4.打赏完之后, 获取key可能会有延迟, 如有紧急问题可直接微信联系." />
+          </Card>
+         
           <Search
             placeholder="请输入支付单号"
             onSearch={(q) => {
