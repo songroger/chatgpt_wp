@@ -15,6 +15,7 @@ import Chat, {
   Search,
   ToolbarItemProps,
   Divider,
+  Icon,
 } from '@chatui/core'
 import '@chatui/core/dist/index.css'
 import '@chatui/core/es/styles/index.less'
@@ -204,7 +205,9 @@ function App() {
       case 'card':
         return (
             <Card>
-              <CardTitle title="Notes:" />
+              <CardTitle title="">
+                <h5><Icon type="compass" /> Notes:</h5>
+              </CardTitle>
               <CardText children="1.Remembers what user said earlier in the conversation;" />
               <CardText children="2.Allows user to provide follow-up corrections. Trained to decline inappropriate requests;" />
               <CardText children="3.May occasionally generate incorrect information, produce harmful instructions or biased content." />
