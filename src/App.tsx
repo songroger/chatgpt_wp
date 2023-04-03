@@ -203,10 +203,10 @@ function App() {
       case 'card':
         return (
             <Card>
-              <CardTitle>Notes:</CardTitle>
-              <CardText>1.Remembers what user said earlier in the conversation;</CardText>
-              <CardText>2.Allows user to provide follow-up corrections. Trained to decline inappropriate requests;</CardText>
-              <CardText>3.May occasionally generate incorrect information, produce harmful instructions or biased content.</CardText>
+              <CardTitle title="Notes:" />
+              <CardText children="1.Remembers what user said earlier in the conversation;" />
+              <CardText children="2.Allows user to provide follow-up corrections. Trained to decline inappropriate requests;" />
+              <CardText children="3.May occasionally generate incorrect information, produce harmful instructions or biased content." />
             </Card>
             )
       default:
