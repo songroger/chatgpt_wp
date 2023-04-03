@@ -10,7 +10,10 @@
 .Bubble {
     max-width: 100vw;
 }
-
+.PullToRefresh {
+  height: 500px;
+  flex: auto !important;
+}
 .MessageContainer,
 .Navbar,
 .Message .Bubble,
