@@ -81,7 +81,7 @@ const initialMessages = [
     content: {
       text: '您好，我是AI助理',
     },
-    user: { avatar: '/gpt.png' },
+    user: { avatar: '/assets/gpt.png' },
   },
   {
     type: 'card',
@@ -95,6 +95,8 @@ function App() {
   const [percentage, setPercentage] = useState(0)
   const [open, setOpen] = useState(false)
   const source = axios.CancelToken.source()
+  const [privateKey, setPrivateKey] = useState("")
+
   // const inputRef = useRef(null)
 
   const handleFocus = () => {
@@ -173,7 +175,7 @@ function App() {
         type: 'text',
         content: { text: val },
         position: 'right',
-        user: { avatar: '/user.png' },
+        user: { avatar: '/assets/user.png' },
       })
 
       setTyping(true)
@@ -260,14 +262,15 @@ function App() {
     axios
       .post(url, {
         messages: chatContext,
-        cancelToken: source.token
+        privateKey: privateKey
+        // cancelToken: source.token
       })
       .then((response) => {
         let reply = clearReply(response.data.data.reply)
         appendMsg({
           type: 'text',
           content: { text: reply },
-          user: { avatar: '/gpt.png' },
+          user: { avatar: '/assets/gpt.png' },
         })
         chatContext = response.data.data.messages
         console.log(chatContext)
@@ -296,14 +299,17 @@ function App() {
       })
       .then((response) => {
         let res = response.data.data.key
-        console.log(res)
+        setPrivateKey(res)
+        toast.show('已查询到你的key并保存成功', "success", 2_000)
+        // console.log("private_key:", privateKey)
       })
       .catch((err) => {
         // 错误处理
         if (axios.isCancel(err)) {
           // 请求被取消时的处理
-          console.log('请求被取消：', err.message);
+          console.log('请求被取消：', err.message)
         } else {
+          console.log(err.message)
           toast.fail('请求出错，' + err.response.data.errorMsg)
         }
       })
@@ -354,7 +360,7 @@ function App() {
           <Card>
             <CardText children="1.每天可免费使用10次,独立key按所有权限使用;" />
             <CardText children="2.如何获取独立key? 打赏作者：每1元获得100次;" />
-            <CardText children="3.如何打赏? 按如下微信二维码支付, 根据支付单号查询你的专属key;" />
+            <CardText children="3.如何打赏? 按如下微信二维码支付, 根据转账单号查询你的专属key;" />
             <CardText children="4.打赏完之后, 获取key可能会有延迟, 如有紧急问题可直接微信联系." />
           </Card>
           <Divider>独立key查询</Divider>
