@@ -14,6 +14,7 @@ import Chat, {
   Input,
   Search,
   ToolbarItemProps,
+  Divider,
 } from '@chatui/core'
 import '@chatui/core/dist/index.css'
 import '@chatui/core/es/styles/index.less'
@@ -353,7 +354,7 @@ function App() {
             <CardText children="3.如何打赏? 按如下微信二维码支付, 根据支付单号查询你的专属key;" />
             <CardText children="4.打赏完之后, 获取key可能会有延迟, 如有紧急问题可直接微信联系." />
           </Card>
-         
+          <Divider>独立key查询</Divider>
           <Search
             placeholder="请输入支付单号"
             onSearch={(q) => {
