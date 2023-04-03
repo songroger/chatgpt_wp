@@ -1,9 +1,10 @@
 TODO:
 
 1. 弹窗里面的功能：
-    展示码、按单号查询key、保存key
+    ~~ 展示码、按单号查询key、~~
+    保存key
 
-2. 主屏增加些说明性图文
+~~ 2. 主屏增加些说明性图文 ~~
 
 
 #### set up
@@ -14,6 +15,8 @@ TODO:
 
 
 #### api
+
+1. chat:
 
 url: /completion   [post req]
 
@@ -45,6 +48,28 @@ return:
             "content": "AI可以替代一些人类工作，但不是所有工作都可以被替代。"
         }],
         "reply": "AI可以替代一些人类工作，但不是所有工作都可以被替代。"
+    },
+    "errorMsg": ""
+}
+```
+
+2. 查询key:
+
+url: /mykey  [post req]
+
+payload:
+
+```
+{"orderId": "56757"}
+```
+
+return:
+
+```json
+{
+    "code": 200,
+    "data": {
+        "key": "private-key-29EIWIOIUIW"
     },
     "errorMsg": ""
 }
