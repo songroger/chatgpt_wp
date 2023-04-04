@@ -11,7 +11,7 @@
     max-width: 100vw;
 }
 .PullToRefresh {
-  height: 500px;
+  height: 50px;
   flex: auto !important;
 }
 .MessageContainer,
