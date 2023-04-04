@@ -300,9 +300,13 @@ function App() {
   function queryMyKey(orderId: string) {
 
     let url = 'mykey'
-    setPrivateKey(orderId)
-    localStorage.setItem('privateKey', JSON.stringify(orderId));
-
+    if (orderId.startsWith('key')) {
+      setPrivateKey(orderId)
+      localStorage.setItem('privateKey', JSON.stringify(orderId))
+      toast.show('你的key保存成功', "success", 2_000)
+      return
+    }
+    
     axios
       .post(url, {
         orderId: orderId,
