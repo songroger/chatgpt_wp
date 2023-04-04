@@ -262,7 +262,7 @@ function App() {
     axios
       .post(url, {
         messages: chatContext,
-        privateKey: privateKey
+        model: privateKey
         // cancelToken: source.token
       })
       .then((response) => {
@@ -292,6 +292,7 @@ function App() {
   function queryMyKey(orderId: string) {
 
     let url = 'mykey'
+    setPrivateKey(orderId)
 
     axios
       .post(url, {
@@ -310,7 +311,7 @@ function App() {
           console.log('请求被取消：', err.message)
         } else {
           console.log(err.message)
-          toast.fail('请求出错，' + err.response.data.errorMsg)
+          toast.fail('请求出错,' + err.response.data.errorMsg)
         }
       })
   }
@@ -338,7 +339,7 @@ function App() {
           //       title: '',
           //     },
           //   ],
-          title: 'ChatGPT',
+          title: '🍋ChatGPT',
         }}
         toolbar={toolbar}
         onToolbarClick={handleToolbarClick}
@@ -353,7 +354,7 @@ function App() {
       <Progress value={percentage} />
       <Popup
         active={open}
-        title="使用说明"
+        title="📝使用说明"
         onClose={handleClose}
       >
         <div style={{padding:'0px 15px'}}>
@@ -373,9 +374,9 @@ function App() {
               console.log('cancel');
             }}
           />
-          <h4>打赏码:</h4>
+          <h4>💰打赏码:</h4>
           <Image src="//img.alicdn.com/tfs/TB1e9m8p5_1gK0jSZFqXXcpaXXa-1024-683.jpg" alt="Responsive image" fluid />
-          <h4>联系作者:</h4>
+          <h4>🥂联系作者:</h4>
           <Image src="//img.alicdn.com/tfs/TB1e9m8p5_1gK0jSZFqXXcpaXXa-1024-683.jpg" alt="Responsive image" fluid />
         </div>
       </Popup>
