@@ -20,7 +20,7 @@ import Chat, {
 import '@chatui/core/dist/index.css'
 import '@chatui/core/es/styles/index.less'
 
-import { useRef, useState } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import './chatui-theme.css'
 import axios from 'axios'
 import clipboardy from 'clipboardy'
@@ -96,6 +96,14 @@ function App() {
   const [open, setOpen] = useState(false)
   const source = axios.CancelToken.source()
   const [privateKey, setPrivateKey] = useState("")
+
+
+  useEffect(() => {
+    let key = JSON.parse(localStorage.getItem('privateKey'));
+      if (key) {
+       setPrivateKey(key);
+      }
+  }, [privateKey]);
 
   // const inputRef = useRef(null)
 
@@ -293,14 +301,16 @@ function App() {
 
     let url = 'mykey'
     setPrivateKey(orderId)
+    localStorage.setItem('privateKey', JSON.stringify(orderId));
 
     axios
       .post(url, {
         orderId: orderId,
       })
       .then((response) => {
-        let res = response.data.data.key
-        setPrivateKey(res)
+        let key = response.data.data.key
+        setPrivateKey(key)
+        localStorage.setItem('privateKey', JSON.stringify(key));
         toast.show('已查询到你的key并保存成功', "success", 2_000)
         // console.log("private_key:", privateKey)
       })
