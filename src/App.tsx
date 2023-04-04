@@ -131,7 +131,7 @@ function App() {
       }
       if (item.type === 'copy') {
         if (messages.length <= 1) {
-            toast.show('无可用复制', "loading", 2_000)
+            toast.show('无可用复制', "success", 2_000)
             return
           }
         const r = messages
@@ -140,8 +140,15 @@ function App() {
           .map((it) => it.content.text)
           .join('\n')
         // console.log('messages', messages, r)
-        await clipboardy.write(r)
-        toast.show('复制成功', "loading", 3_000)
+        document.execCommand("copy", true, r)
+        if ("clipboard" in navigator) {
+          await navigator.clipboard.writeText(r)
+            .then(() => toast.show('复制成功', "success", 2_000))
+            .catch((error) => toast.fail('复制失败,'+ error.message, "loading", 2_000))
+        } else {
+          document.execCommand("copy", true, r);
+        }
+        
       }
     }
 
@@ -288,9 +295,9 @@ function App() {
         // 错误处理
         if (axios.isCancel(err)) {
           // 请求被取消时的处理
-          console.log('请求被取消：', err.message);
+          console.log('请求被取消:', err.message);
         } else {
-          toast.fail('请求出错，' + err.response.data.errorMsg)
+          toast.fail('请求出错,' + err.response.data.errorMsg)
           setPercentage(0)
           setTyping(false)
         }
@@ -320,13 +327,8 @@ function App() {
       })
       .catch((err) => {
         // 错误处理
-        if (axios.isCancel(err)) {
-          // 请求被取消时的处理
-          console.log('请求被取消：', err.message)
-        } else {
           console.log(err.message)
           toast.fail('请求出错,' + err.response.data.errorMsg)
-        }
       })
   }
 
