@@ -99,7 +99,7 @@ function App() {
 
 
   useEffect(() => {
-    let key = JSON.parse(localStorage.getItem('privateKey'));
+    let key = JSON.parse(localStorage.getItem('privateKey')!);
       if (key) {
        setPrivateKey(key);
       }
