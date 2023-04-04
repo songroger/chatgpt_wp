@@ -236,23 +236,9 @@ function App() {
 
   async function handleQuickReplyClick(item: { name: string }) {
     if (item.name === '清空') {
-
       chatContext.splice(0)
       messages.splice(0)
       prependMsgs(messages)
-    }
-    if (item.name === '复制') {
-      if (messages.length <= 1) {
-        return
-      }
-      const r = messages
-        .slice(1)
-        .filter((it) => it.type === 'text')
-        .map((it) => it.content.text)
-        .join('\n')
-      console.log('messages', messages, r)
-      await clipboardy.write(r)
-      toast.show('复制成功', "loading", 3_000)
     }
     if (item.name === 'Ai会替代人类工作吗') {
       handleSend('text', item.name);
