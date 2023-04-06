@@ -304,16 +304,20 @@ function App() {
         orderId: orderId,
       })
       .then((response) => {
-        let key = response.data.data.key
-        setPrivateKey(key)
-        localStorage.setItem('privateKey', JSON.stringify(key));
-        toast.show('已查询到你的key并保存成功', "success", 2_000)
-        // console.log("private_key:", privateKey)
+        if (response.code == 200) {
+          let key = response.data.data.key
+          setPrivateKey(key)
+          localStorage.setItem('privateKey', JSON.stringify(key));
+          toast.show('已查询到你的key并保存成功', "success", 2_000)
+          // console.log("private_key:", privateKey)
+          return
+        }
+        toast.fail(response.data.errorMsg)
       })
       .catch((err) => {
         // 错误处理
           console.log(err.message)
-          toast.fail('请求出错,' + err.response.data.errorMsg)
+          toast.fail('请求出错:' + err.message)
       })
   }
 
@@ -376,9 +380,9 @@ function App() {
             }}
           />
           <h4>💰打赏码:</h4>
-          <Image src="//img.alicdn.com/tfs/TB1e9m8p5_1gK0jSZFqXXcpaXXa-1024-683.jpg" alt="Responsive image" fluid />
+          <Image src="/assets/recieve.png" alt="Responsive image" fluid />
           <h4>🥂联系作者:</h4>
-          <Image src="//img.alicdn.com/tfs/TB1e9m8p5_1gK0jSZFqXXcpaXXa-1024-683.jpg" alt="Responsive image" fluid />
+          <Image src="/assets/qr.png" alt="Responsive image" fluid />
         </div>
       </Popup>
     </div>
