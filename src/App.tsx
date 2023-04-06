@@ -30,13 +30,13 @@ import sanitizeHtml from 'sanitize-html';
 
 
 const defaultQuickReplies = [
-  // {
-  //   type: 'refresh',
-  //   icon: 'refresh',
-  //   name: '清空',
-  //   isNew: true,
-  //   isHighlight: true,
-  // },
+  {
+    type: 'refresh',
+    icon: 'refresh',
+    name: '清空',
+    isNew: true,
+    isHighlight: true,
+  },
   // {
   //   type: 'copy',
   //   icon: 'copy',
@@ -304,7 +304,7 @@ function App() {
         orderId: orderId,
       })
       .then((response) => {
-        if (response.code == 200) {
+        if (response.data.code == 200) {
           let key = response.data.data.key
           setPrivateKey(key)
           localStorage.setItem('privateKey', JSON.stringify(key));
