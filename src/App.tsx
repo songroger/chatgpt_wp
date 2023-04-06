@@ -143,7 +143,7 @@ function App() {
         if (window.isSecureContext && "clipboard" in navigator) {
           await navigator.clipboard.writeText(r)
             .then(() => toast.show('复制成功', "success", 2_000))
-            .catch((error) => toast.fail('复制失败,'+ error.message, "loading", 2_000))
+            .catch((error) => toast.fail('复制失败,'+ error.message))
         } else {
           document.execCommand("copy", true, r);
         }
