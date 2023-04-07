@@ -27,7 +27,8 @@ payload:
     "messages": [{
         "role": "user",
         "content": "Ai会替代人类工作吗"
-    }]
+    }],
+    privateKey: ""
 }
 ```
 
@@ -70,6 +71,33 @@ return:
     "code": 200,
     "data": {
         "key": "private-key-29EIWIOIUIW"
+    },
+    "errorMsg": ""
+}
+```
+
+2. 添加key次数:
+
+url: /setkey  [post req]
+
+payload:
+
+```
+{
+    "adminKey": "56757",
+    "privateKey": "56757",
+    "limit": 100
+}
+```
+
+return:
+
+```json
+{
+    "code": 200,
+    "data": {
+        "key": "private-key-29EIWIOIUIW",
+        "total": 500
     },
     "errorMsg": ""
 }

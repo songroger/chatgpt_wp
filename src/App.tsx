@@ -96,6 +96,8 @@ function App() {
   const [open, setOpen] = useState(false)
   const source = axios.CancelToken.source()
   const [privateKey, setPrivateKey] = useState("")
+  const [total, setTotal] = useState(0)
+  const [showComponent, setShowComponent] = useState(false)
 
 
   useEffect(() => {
@@ -172,7 +174,7 @@ function App() {
   // openMenu
   function handleOpen() {
     setOpen(true);
-    console.log("open menu")
+    // console.log("open menu")
   }
 
   function handleClose() {
@@ -227,6 +229,9 @@ function App() {
               <CardText children="1.Remembers what user said earlier in the conversation;" />
               <CardText children="2.Allows user to provide follow-up corrections. Trained to decline inappropriate requests;" />
               <CardText children="3.May occasionally generate incorrect information, produce harmful instructions or biased content." />
+              <CardTitle title="">
+                {showComponent && <h5><Icon type="info-circle" /> 当前key剩余次数:{total}</h5>}
+              </CardTitle>
             </Card>
             )
       default:
@@ -273,7 +278,9 @@ function App() {
           user: { avatar: '/assets/gpt.png' },
         })
         chatContext = response.data.data.messages
-        console.log(chatContext)
+        // console.log(chatContext)
+        setTotal(response.data.data.limit)
+        setShowComponent(true)
         setPercentage(0)
       })
       .catch((err) => {
@@ -307,12 +314,15 @@ function App() {
         if (response.data.code == 200) {
           let key = response.data.data.key
           setPrivateKey(key)
-          localStorage.setItem('privateKey', JSON.stringify(key));
+          setTotal(response.data.data.limit)
+          setShowComponent(true)
+          localStorage.setItem('privateKey', JSON.stringify(key))
           toast.show('已查询到你的key并保存成功', "success", 2_000)
           // console.log("private_key:", privateKey)
           return
         }
         toast.fail(response.data.errorMsg)
+        setTotal(0)
       })
       .catch((err) => {
         // 错误处理
@@ -369,7 +379,7 @@ function App() {
             <CardText children="3.如何打赏? 按如下微信二维码支付, 根据转账单号查询你的专属key;" />
             <CardText children="4.打赏完之后, 获取key可能会有延迟, 如有紧急问题可直接微信联系." />
           </Card>
-          <Divider>独立key查询</Divider>
+          <Divider>独立key查询{showComponent && <div>-当前key剩余次数:{total}</div>}</Divider>
           <Search
             placeholder="请输入支付单号"
             onSearch={(q) => {
